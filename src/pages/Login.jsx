@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { login} from '../store/actions/auth-action'
 
 const Login = () => {
+    
     const [email, setEmail] = useState("") 
     const [password,setPassword]= useState("")
     const [error, setError] = useState({})
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-
+    
 
 
     const validateEmail = () => {
@@ -58,11 +60,9 @@ const Login = () => {
             }
             console.log( email,password)
             dispatch(login(data))
-
+            
             
         }
-
-
         setEmail("")
         setPassword("")
     }
