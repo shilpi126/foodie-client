@@ -73,7 +73,7 @@ return (
     <div className='bg-slate-800 h-screen w-screen flex  items-center flex-col'>
     <h1 className='text-center pt-8 pb-4 text-2xl text-white'>Login</h1>
 
-        <form onSubmit={handleFormSubmit} className='w-[100%] p-6 rou mb-2 h-80 w-96 bg-slate-900 rounded-md'>
+        <form onSubmit={handleFormSubmit} className=' p-6 rou mb-2 h-80 w-96 bg-slate-900 rounded-md'>
             
             <div className='mb-4 h-16'>
                 <label htmlFor='email' className='text-white'>Email</label>

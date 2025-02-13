@@ -5,10 +5,10 @@ import Category from '../components/Category'
 
 const Home = () => {
   return (
-    <div>
-        <Header/>
+    <div className='bg-slate-950 h-screen'>
+        
         <Category/>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

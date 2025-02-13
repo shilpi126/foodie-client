@@ -1,5 +1,7 @@
 import axios from "axios"
+import { authAction } from "../slices/authSlice";
 const API = "AIzaSyDDR455SSe-iN_twizywBvF_pIElCFxmS4";
+const token = localStorage.getItem("token")
 
 
 export const register = (data) => {
@@ -48,8 +50,71 @@ export const login = (data) => {
         try{
             const res = await loginUser()
             console.log(res)
-            localStorage.setItem("token",res.idToken)
+            dispatch(authAction.login(res))
+           
             
+        }catch(error){
+            console.log(error.message)
+
+        }
+
+
+
+    }
+}
+
+
+
+export const updateProfileData = (data) => {
+    return async(dispatch) => {
+
+        const updateUserProfile = async() =>{
+            const response = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API}`,{
+                idToken : token,
+                displayName:data.name,
+                photoUrl:data.url,
+                returnSecureToken:true,
+                
+            })
+            const res = response.data;
+            return res;
+
+        }
+
+
+        try{
+            const data = await updateUserProfile()
+            console.log(data)
+
+        }catch(error){
+            console.log(error.message)
+
+        }
+
+
+
+    }
+}
+
+export const userProfileData = (data) => {
+    return async(dispatch) => {
+
+        const getUserProfile = async() =>{
+            const response = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API}`,{
+                idToken : token,
+                
+                
+            })
+            const res = response.data;
+            return res;
+
+        }
+
+
+        try{
+            const data = await getUserProfile()
+            console.log(data)
+            localStorage.setItem("userData",JSON.stringify(data))
         }catch(error){
             console.log(error.message)
 

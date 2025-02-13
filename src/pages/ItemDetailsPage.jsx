@@ -1,29 +1,71 @@
-import React from 'react'
-import { useParams } from 'react-router'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router'
+import {useDispatch, useSelector} from "react-redux"
+import { cartAction } from '../store/slices/cartSlice'
+import {  addtoCartItem, getCartData} from '../store/actions/cart-action'
+import { getSingleRecipeData } from '../store/actions/recipe-action'
+
 
 const ItemDetailsPage = () => {
-    const {id} = useParams()
-    //console.log(id)
-    const item= {
-        
-        title:"Fast Food",
-        image:"https://th.bing.com/th/id/OIP.6kGq884LNcszPlPSz_MMEQHaEK?w=288&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        description:"hjgfhjgfhjgf"
     
-    }
+    const {id} = useParams()
+    
+    const dispatch = useDispatch()
+    const active = useSelector((state)=>state.cart.addCartData)
+    console.log(active)
+    const item = useSelector((state)=>state.recipe.singleData)
+  //console.log(item)
+
+const activeData = active.find((item)=>item.itemId === id)
+  
+console.log(id, activeData)
+
+
+const handleAddToCart = () => {
+  
+      dispatch(addtoCartItem(item));
+      
+};
+    
+
+
+
+    useEffect(()=>{
+    
+    dispatch(getSingleRecipeData(id))
+
+    },[])
+
+
+
+
+
   return (
 
-     <div className='w-[100%] h-[100%] flex justify-center mt-10'>
-          <div  className='h-96 w-[60%] rounded-md flex justify-between  shadow-lg shadow-slate-400'>
-        <img src={item.image} className='h-[100%] w-[50%] p-4  rounded-md'/>
-        <div className='w-[50%] p-4 '>
-        <p className='p-2'>{item.title}</p>
-        <p className='p-2'>{item.description}</p>
-        <button>Add To Cart</button>
+    <div className='w-screen h-screen flex  justify-center  bg-slate-950 text-white '>
+          <div  className=' h-96 lg:h-80  w-[60%] mt-8 rounded-md p-6 flex  flex-wrap  shadow-md shadow-slate-600'>
+          
+          
+            
+            
+        <img src={item.images}  alt='image' className=' w-full md:w-80  h-48 md:h-56 mr-0 md:mr-6  rounded-md'/>
+        <div className=' mt-4 lg:mt-0'>
+        <h1 className=' text-md'>Title : {item.title}</h1>
+        <p className='text-sm overflow-hidden'>Category : {item.category}</p>
+        <p className=' '>Ingredient : {item.ingredient}</p>
+        <h1 className=' text-md'>Price : {item.price}</h1>
+        
+      {!activeData &&   <button id={item.id} onClick={handleAddToCart} className='h-8 w-32  text-center bg-orange-600 text-white rounded-md  mt-2'>Add To Cart</button>
+        }
+
+        {activeData && <Link to="/cart"><button className='h-8 w-32  text-center bg-slate-600 text-white rounded-md  mt-2'>Go To Cart</button></Link >
+        }
+
+
         </div>
-       </div>
-     </div>
-   
+      </div>
+      </div>
+      
   )
 }
 
